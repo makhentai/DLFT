@@ -22,32 +22,8 @@ Three tabs: **Instructions**, **Download mods**, **Install mods**.
 - Optional: skip readme/license/changelog files on install.
 - Light/dark theme and RU/EN language, both switchable instantly.
 
-## Project layout
-
-- `src/DownloadListFromTushenka.App` — the WPF GUI (`DownloadListFromTushenka.exe`).
-- `src/DownloadListFromTushenka.Downloader` — console downloader, same core logic.
-- `src/DownloadListFromTushenka.Installer` — console installer, same core logic.
-- `tests/DownloadListFromTushenka.Tests` — xUnit tests for both.
-
-The GUI project references the two console projects and reuses their
-classes directly — there's one copy of the actual download/install logic,
-not three.
-
-## Build
-
-Requires the .NET 10 SDK.
-
-```bash
-dotnet publish src/DownloadListFromTushenka.App -c Release -r win-x64
-```
-
-Output: `src/DownloadListFromTushenka.App/bin/Release/net10.0-windows/win-x64/publish/DownloadListFromTushenka.exe`.
-
-## Test
-
-```bash
-dotnet test
-```
+See [ARCHITECTURE.md](ARCHITECTURE.md) for how it's built, project layout,
+and how to build/test it yourself.
 
 ## License
 

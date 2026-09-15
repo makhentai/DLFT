@@ -2,6 +2,24 @@
 
 A tour through the code for anyone curious enough to read past the README.
 
+## Project layout
+
+- `src/DownloadListFromTushenka.App` — the WPF GUI (`DownloadListFromTushenka.exe`).
+- `src/DownloadListFromTushenka.Downloader` — console downloader, same core logic.
+- `src/DownloadListFromTushenka.Installer` — console installer, same core logic.
+- `tests/DownloadListFromTushenka.Tests` — xUnit tests for both.
+
+## Build & test
+
+Requires the .NET 10 SDK.
+
+```bash
+dotnet publish src/DownloadListFromTushenka.App -c Release -r win-x64
+dotnet test
+```
+
+Output exe: `src/DownloadListFromTushenka.App/bin/Release/net10.0-windows/win-x64/publish/DownloadListFromTushenka.exe`.
+
 ## Why three projects instead of one
 
 `DownloadListFromTushenka.App` (the GUI), `.Downloader` and `.Installer`
