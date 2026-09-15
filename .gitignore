@@ -1,0 +1,7 @@
+bin/
+obj/
+Download/
+logs/
+.work/
+release/
+mod-list/

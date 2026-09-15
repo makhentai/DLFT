@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DownloadListFromTushenka</RootNamespace>
+    <AssemblyName>DownloadListFromTushenka.Installer</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      ExcludeAssets="build" stops the package's own build\SevenZipExtractor.targets
+      from running — that file adds x64\7z.dll and x86\7z.dll as plain "None"
+      items meant to sit next to the exe as loose files. We don't want a
+      visible companion folder at all, so instead 7z.dll is embedded as a
+      resource (below) and SevenZipDllArchiveReader unpacks it to a temp
+      file on first use — see the comment there for why a real file on disk
+      is unavoidable (SevenZipExtractor calls Win32 LoadLibrary on an actual
+      path, it can't load straight out of the single-file bundle).
+      GeneratePathProperty exposes the package's cache folder as
+      $(PkgSevenZipExtractor) so we can grab the x64 copy for embedding.
+    -->
+    <PackageReference Include="SevenZipExtractor" Version="1.0.19" ExcludeAssets="build" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(PkgSevenZipExtractor)\build\x64\7z.dll">
+      <LogicalName>DownloadListFromTushenka.7z.dll</LogicalName>
+      <Link>7z.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

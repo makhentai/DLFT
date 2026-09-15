@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DownloadListFromTushenka.App</RootNamespace>
+    <AssemblyName>DownloadListFromTushenka</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!--
+      НЕ включать InvariantGlobalization здесь: WPF использует
+      культурно-зависимую раскладку текста (MS.Internal.FontCache) для
+      выбора шрифтов/типографики по языку. Под этим флагом первое
+      обращение к нестандартному языковому пути (не обязательно на
+      старте — может сработать позже, на любой другой вкладке/тексте)
+      бросает CultureNotFoundException при попытке создать CultureInfo
+      "en", и WPF-приложение падает целиком. У консольных
+      Downloader/Installer этой проблемы нет — там флаг оставлен.
+    -->
+    <ApplicationIcon Condition="Exists('app.ico')">app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadListFromTushenka.Downloader\DownloadListFromTushenka.Downloader.csproj" />
+    <ProjectReference Include="..\DownloadListFromTushenka.Installer\DownloadListFromTushenka.Installer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- WPF's Window.Icon="app.ico" resolves as a pack resource, so it needs to be a build Resource too, not just the exe's ApplicationIcon. -->
+    <Resource Include="app.ico" Condition="Exists('app.ico')" />
+  </ItemGroup>
+
+</Project>

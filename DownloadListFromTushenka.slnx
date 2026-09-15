@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DownloadListFromTushenka.Downloader/DownloadListFromTushenka.Downloader.csproj" />
+    <Project Path="src/DownloadListFromTushenka.Installer/DownloadListFromTushenka.Installer.csproj" />
+    <Project Path="src/DownloadListFromTushenka.App/DownloadListFromTushenka.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DownloadListFromTushenka.Tests/DownloadListFromTushenka.Tests.csproj" />
+  </Folder>
+</Solution>

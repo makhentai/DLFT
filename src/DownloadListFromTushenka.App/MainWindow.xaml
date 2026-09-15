@@ -1,0 +1,157 @@
+<Window x:Class="DownloadListFromTushenka.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:DownloadListFromTushenka.App"
+        Title="{Binding Source={x:Static app:Loc.Instance}, Path=[WindowTitle]}"
+        Icon="app.ico"
+        Height="720" Width="880" MinHeight="480" MinWidth="600"
+        Background="{DynamicResource PageBrush}"
+        FontFamily="Segoe UI" FontSize="13.5">
+
+    <!--
+      Viewbox масштабирует весь интерфейс как единое целое при изменении
+      размера окна (Uniform — пропорционально, без искажений; при другом
+      соотношении сторон появляются поля цвета фона по краям).
+    -->
+    <Viewbox Stretch="Uniform">
+        <Grid Width="880" Height="740" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[HeaderTitle]}"
+                               FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[HeaderSubtitle]}"
+                               Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button x:Name="LanguageToggleButton" Style="{StaticResource ToggleChipButton}"
+                            Content="{Binding Source={x:Static app:Loc.Instance}, Path=[LanguageToggle]}"
+                            Click="LanguageToggleButton_Click" Margin="0,0,8,0" MinWidth="34"/>
+                    <Button x:Name="ThemeToggleButton" Style="{StaticResource ToggleChipButton}"
+                            Click="ThemeToggleButton_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <TabControl Grid.Row="1" x:Name="MainTabs" Style="{StaticResource PillTabControl}">
+
+                <TabItem Header="{Binding Source={x:Static app:Loc.Instance}, Path=[TabInstructions]}">
+                    <StackPanel MaxWidth="620">
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[InstrWhatYouNeedHeader]}" Style="{StaticResource SectionHeader}"/>
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[InstrWhatYouNeedBody]}"
+                                   TextWrapping="Wrap" Margin="0,0,0,20" Foreground="{DynamicResource TextSecondaryBrush}"/>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[InstrStep2Header]}" Style="{StaticResource SectionHeader}"/>
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[InstrStep2Body]}"
+                                   TextWrapping="Wrap" Margin="0,0,0,20" Foreground="{DynamicResource TextSecondaryBrush}"/>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[InstrStep3Header]}" Style="{StaticResource SectionHeader}"/>
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[InstrStep3Body]}"
+                                   TextWrapping="Wrap" Foreground="{DynamicResource TextSecondaryBrush}"/>
+
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="{Binding Source={x:Static app:Loc.Instance}, Path=[TabDownload]}">
+                    <StackPanel>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[ListUrlLabel]}" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="ListUrlBox"/>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[DownloadFolderLabel]}" Style="{StaticResource FieldLabel}" Margin="0,20,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="DownloadFolderBox" Grid.Column="0"/>
+                            <Button x:Name="BrowseDownloadFolderButton" Grid.Column="1"
+                                    Content="{Binding Source={x:Static app:Loc.Instance}, Path=[BrowseButton]}" Style="{StaticResource SecondaryButton}"
+                                    Margin="8,0,0,0" Click="BrowseDownloadFolderButton_Click"/>
+                        </Grid>
+
+                        <Button x:Name="StartDownloadButton" Content="{Binding Source={x:Static app:Loc.Instance}, Path=[StartDownloadButton]}" Style="{StaticResource PrimaryButton}"
+                                HorizontalAlignment="Left" Margin="0,20,0,0" Click="StartDownloadButton_Click"/>
+
+                        <ProgressBar x:Name="DownloadProgressBar" Height="6" Margin="0,20,0,0" Minimum="0" Maximum="1"/>
+                        <TextBlock x:Name="DownloadStatusText" Margin="0,8,0,0" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <Button x:Name="ViewDownloadErrorLogButton" Style="{StaticResource ErrorLinkButton}"
+                                Margin="0,4,0,0" Visibility="Collapsed" Click="ViewDownloadErrorLogButton_Click"/>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[LogLabel]}" Style="{StaticResource FieldLabel}" Margin="0,20,0,6"/>
+                        <RichTextBox x:Name="DownloadLogBox" Height="150" Style="{StaticResource LogRichTextBox}"/>
+
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="{Binding Source={x:Static app:Loc.Instance}, Path=[TabInstall]}">
+                    <StackPanel>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[ModsFolderLabel]}" Style="{StaticResource FieldLabel}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="ModsFolderBox" Grid.Column="0"/>
+                            <Button x:Name="BrowseModsFolderButton" Grid.Column="1"
+                                    Content="{Binding Source={x:Static app:Loc.Instance}, Path=[BrowseButton]}" Style="{StaticResource SecondaryButton}"
+                                    Margin="8,0,0,0" Click="BrowseModsFolderButton_Click"/>
+                        </Grid>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[GameFolderLabel]}" Style="{StaticResource FieldLabel}" Margin="0,20,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="GameFolderBox" Grid.Column="0"/>
+                            <Button x:Name="BrowseGameFolderButton" Grid.Column="1"
+                                    Content="{Binding Source={x:Static app:Loc.Instance}, Path=[BrowseButton]}" Style="{StaticResource SecondaryButton}"
+                                    Margin="8,0,0,0" Click="BrowseGameFolderButton_Click"/>
+                        </Grid>
+
+                        <CheckBox x:Name="SkipDocFilesCheckBox" Content="{Binding Source={x:Static app:Loc.Instance}, Path=[SkipDocFilesLabel]}"
+                                  Margin="0,20,0,0"/>
+
+                        <Button x:Name="StartInstallButton" Content="{Binding Source={x:Static app:Loc.Instance}, Path=[StartInstallButton]}" Style="{StaticResource PrimaryButton}"
+                                HorizontalAlignment="Left" Margin="0,20,0,0" Click="StartInstallButton_Click"/>
+
+                        <ProgressBar x:Name="InstallProgressBar" Height="6" Margin="0,20,0,0" Minimum="0" Maximum="1"/>
+                        <TextBlock x:Name="InstallStatusText" Margin="0,8,0,0" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <Button x:Name="ViewInstallErrorLogButton" Style="{StaticResource ErrorLinkButton}"
+                                Margin="0,4,0,0" Visibility="Collapsed" Click="ViewInstallErrorLogButton_Click"/>
+
+                        <TextBlock Text="{Binding Source={x:Static app:Loc.Instance}, Path=[LogLabel]}" Style="{StaticResource FieldLabel}" Margin="0,20,0,6"/>
+                        <RichTextBox x:Name="InstallLogBox" Height="150" Style="{StaticResource LogRichTextBox}"/>
+
+                    </StackPanel>
+                </TabItem>
+
+            </TabControl>
+
+            <TextBlock Grid.Row="2" FontSize="10.5" Foreground="{DynamicResource TextMutedBrush}"
+                       HorizontalAlignment="Center" Margin="0,14,0,0">
+                <TextBlock.Resources>
+                    <Style TargetType="Hyperlink">
+                        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}"/>
+                    </Style>
+                </TextBlock.Resources>
+                <Run Text="{Binding Source={x:Static app:Loc.Instance}, Path=[FooterCredit], Mode=OneWay}"/>
+                <Hyperlink NavigateUri="https://github.com/makhentai" RequestNavigate="Hyperlink_RequestNavigate">makshepard</Hyperlink>
+            </TextBlock>
+
+        </Grid>
+    </Viewbox>
+</Window>
